@@ -1,0 +1,43 @@
+@startuml HyperTask
+
+entity users{
+    * id AI PK
+    * name String
+    * email String
+    * password  String
+}
+
+entity projects {
+    * id Ai PK 
+    * title String
+     description String
+    * status String
+    * user_id Integer FK users.id
+
+}
+
+entity task_groups{
+    * id AI PK
+    * title String
+    * groupable_id Integer FK (users.id, projects.id)
+    * groupable_type String (User,peoject)
+}
+
+entity tasks{
+    * id AI PK 
+    * body String
+    * staus String
+    * taskable_id Integer FK (users.id,projects.id,task_groups.id)
+    * taskable_type String (User,Project)
+}
+
+tasks }o-- users
+tasks }o-- projects
+projects }o-- users
+task_groups }o-- projects
+task_groups }o-- users
+
+tasks }o-- task_groups
+
+
+@enduml

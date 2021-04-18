@@ -1,0 +1,120 @@
+@startuml HyperTask_Laravel_Class
+
+package larvel{
+    class Model{}
+    class View{}
+    class Controller{}
+    class Resource{}
+}
+
+
+package hypertask{
+
+    class User extends Model {
+    + id : int
+    + name : String
+    + email : String
+    + password : String
+
+    + tasks() : [Task]
+    + projects() : [Project]
+    + taskGroups() : [TaskGroup]
+    }
+
+    class Project extends Model {
+    + id : int
+    + title : String
+    + description : String ?
+    + status : String 
+    + user_id : int
+
+    + taskGroup() : [TaskGroup]
+    + tasks() : [Task]
+
+    + user() : User
+
+    }  
+
+    class TaskGroup extends Model {
+
+    + id : int
+    + title : String
+    + groupable_id : int
+    + groupable_type : String
+
+    + tasks () : [Task]
+
+    + user() : User
+    + project() : Project
+    }
+
+    class Task extends Model {
+    + id : int
+    + body : String
+    + staus : String
+    + taskable_id : int
+    + taskable_type : String
+
+    + user() : User
+    + project() : Project
+    + taskGroup() : TaskGroup
+    }
+}
+package hyperdesk.repositries{
+    interface ModelRepository{
+        + save([dynamic]) : Model
+        + update([dynamic] ,  Model) : Model
+    }
+    class UserRespositry implements ModelRepository{}
+    class ProjectRepository implements ModelRepository{}
+    class TaskGroupRepository implements ModelRepository{}
+    class TaskRepository implements ModelRepository{}
+}
+
+package hypertask.controllers{
+    
+    interface Managable{
+        + index() : View
+        + show(Model) : View
+        + store(Request,ModelRepository) : View
+        + edit(Model) : View
+        + create() : View
+        + update(Model,Request) : View
+        + delete(Model) : View 
+    }
+
+    class UserController extends Controller implements  Managable {
+
+    }
+    class ProjectController extends Controller implements  Managable {
+  
+    }
+    class TaskGroupController extends Controller implements  Managable {
+
+    }
+
+    class TaskController extends Controller implements  Managable  {
+ 
+    }
+}
+package hypertask.controllers.api{
+
+     interface Apipable{
+        + index() : Resource
+        + show(Model) : Resource
+        + store(Request ,ModelRepository ) : Resource
+        + update(Model,Request,ModelRepository) : Resource
+        + delete(Model) : Resource 
+    }
+
+    
+    class UserController extends Controller implements Apipable{}
+    class ProjectController extends Controller implements Apipable{}
+    class TaskGroupController extends Controller implements Apipable{}
+    class TaskController extends Controller implements Apipable{}
+
+}
+
+
+
+@enduml
